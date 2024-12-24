@@ -20,6 +20,13 @@ MONGO_DB_URL = os.getenv("MONGO_DB_URL")
 class DataIngestion:
 
     def __init__(self, data_ingestion_config:DataIngestionConfig):
+        """
+        Initializes the DataIngestion class with the provided configuration.
+
+        Parameters:
+            data_ingestion_config: DataIngestionConfig
+                Configuration object containing details for data ingestion.
+        """
         try:
             self.data_ingestion_config=data_ingestion_config
         except Exception as e:
@@ -27,6 +34,15 @@ class DataIngestion:
         
 
     def export_collection_as_dataframe(self):
+        """
+        Exports a MongoDB collection as a pandas DataFrame.
+
+        Returns:
+            pd.DataFrame: A DataFrame containing data from the specified MongoDB collection.
+
+        Raises:
+            MachinePredictiveMaintenanceException: If any error occurs during the data export.
+        """
         try:
             database_name= self.data_ingestion_config.database_name
             collection_name= self.data_ingestion_config.collection_name
@@ -45,6 +61,19 @@ class DataIngestion:
         
 
     def export_data_into_feature_store(self,dataframe: pd.DataFrame):
+        """
+        Saves the provided DataFrame into a CSV file at the specified feature store location.
+
+        Parameters:
+            dataframe: pd.DataFrame
+                The DataFrame to be saved as a CSV file.
+
+        Returns:
+            pd.DataFrame: The same DataFrame that was saved.
+
+        Raises:
+            MachinePredictiveMaintenanceException: If any error occurs during the file saving process.
+        """
         try:
             feature_store_file_path=self.data_ingestion_config.feature_store_file_path
             #creating folder
@@ -58,6 +87,16 @@ class DataIngestion:
 
     
     def split_data_as_train_test(self, dataframe:pd.DataFrame):
+        """
+        Splits the DataFrame into training and testing datasets and saves them as CSV files.
+
+        Parameters:
+            dataframe: pd.DataFrame
+                The DataFrame to be split into training and testing datasets.
+
+        Raises:
+            MachinePredictiveMaintenanceException: If any error occurs during the data splitting or file saving process.
+        """
         try:
             train_set, test_set = train_test_split(
                 dataframe, test_size=self.data_ingestion_config.train_test_split_ratio
@@ -89,6 +128,18 @@ class DataIngestion:
 
         
     def initiate_data_ingestion(self):
+        """
+        Executes the complete data ingestion process, including:
+        1. Exporting data from MongoDB collection as a DataFrame.
+        2. Saving the DataFrame to the feature store.
+        3. Splitting the data into training and testing datasets and saving them.
+
+        Returns:
+            DataIngestionArtifact: An artifact containing paths for training and testing datasets.
+
+        Raises:
+            MachinePredictiveMaintenanceException: If any error occurs during the data ingestion process.
+        """
         try:
             dataframe = self.export_collection_as_dataframe()
             dataframe = self.export_data_into_feature_store(dataframe)
