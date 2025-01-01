@@ -119,9 +119,10 @@ class DataIngestion:
 
             test_set.to_csv(
                 self.data_ingestion_config.testing_file_path, index=False, header=True
-            )
+                
+                            )
 
-            logging.info(f"Exported train and test file path.")
+            logging.info(f"Exported train and test file path."  )
 
         except Exception as e:
             raise MachinePredictiveMaintenanceException(e, sys)
