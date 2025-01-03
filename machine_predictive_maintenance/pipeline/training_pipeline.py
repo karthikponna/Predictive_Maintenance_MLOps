@@ -11,7 +11,7 @@ from machine_predictive_maintenance.components.model_trainer import ModelTrainer
 
 from machine_predictive_maintenance.constant.training_pipeline import TRAINING_BUCKET_NAME
 
-from machine_predictive_maintenance.cloud.s3_syner import S3Sync
+from machine_predictive_maintenance.cloud.s3_syncer import S3Sync
 
 from machine_predictive_maintenance.entity.config_entity import (
     TrainingPipelineConfig,
