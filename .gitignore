@@ -1,2 +1,6 @@
 venv
 .env
+Artifacts
+logs
+my_venv
+__pycache__/
