@@ -1,0 +1,45 @@
+columns:
+  - UDI: int64
+  - Product ID: category
+  - Type: category
+  - Air temperature [K]: float64
+  - Process temperature [K]: float64
+  - Rotational speed [rpm]: int64
+  - Torque [Nm]: float64
+  - Tool wear [min]: int64
+  - Target: int64
+  - Failure Type: category
+
+numerical_columns:
+  - UDI
+  - Air temperature [K]
+  - Process temperature [K]
+  - Rotational speed [rpm]
+  - Torque [Nm]
+  - Tool wear [min]
+  - Target
+
+categorical_columns:
+  - Product ID
+  - Type
+  - Failure Type
+
+drop_columns:
+  - UDI
+  - Product ID
+  - Air temperature [K]
+  - Process temperature [K]
+  - Failure Type
+
+ordinal_columns:
+  - Type
+
+ordinal_categories:
+  - ['L', 'M', 'H']
+
+scaling_features:
+  - Rotational speed [rpm]
+  - Torque [Nm]
+  - Tool wear [min]
+  - Air temperature [c]
+  - Process temperature [c]
