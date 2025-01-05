@@ -122,8 +122,8 @@ class TrainingPipeline:
             data_transformation_artifact=self.data_transformation(data_validation_artifact=data_validation_artifact)
             model_trainer_artifact=self.model_trainer(data_transformation_artifact=data_transformation_artifact)
             
-            self.sync_artifact_dir_to_s3
-            self.sync_saved_model_dir_to_s3
+            self.sync_artifact_dir_to_s3()
+            self.sync_saved_model_dir_to_s3()
             
             return model_trainer_artifact
         except Exception as e:
