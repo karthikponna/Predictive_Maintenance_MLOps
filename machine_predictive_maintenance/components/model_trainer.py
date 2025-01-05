@@ -123,7 +123,7 @@ class ModelTrainer:
         model_dir_path = os.path.dirname(self.model_trainer_config.trained_model_file_path)
         os.makedirs(model_dir_path,exist_ok=True)
 
-        Machine_Predictive_Model = MachinePredictiveModel(preprocessor=preprocessor,model=best_model)
+        Machine_Predictive_Model = MachinePredictiveModel(model=best_model)
 
         save_object(self.model_trainer_config.trained_model_file_path,obj=MachinePredictiveModel)
 
