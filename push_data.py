@@ -18,13 +18,38 @@ ca = certifi.where()
 
 class PredictiveDataExtract():
 
+    """
+    A class to handle data extraction and insertion into MongoDB for predictive maintenance.
+
+    Methods:
+        csv_to_json_convertor(file_path): Converts a CSV file into a list of JSON records.
+        insert_data_mongodb(records, database, collection): Inserts JSON records into the specified MongoDB database and collection.
+    """
+
     def __init__(self):
+
+        """
+        Initializes the PredictiveDataExtract class.
+        """
+
         try:
             pass
         except Exception as e:
             raise MachinePredictiveMaintenanceException(e, sys)
         
     def csv_to_json_convertor(self, file_path):
+
+        """
+        Converts a CSV file into a list of JSON records.
+
+        Args:
+            file_path (str): Path to the CSV file.
+
+        Returns:
+            list: A list of JSON records.
+
+        """
+
         try:
             data = pd.read_csv(file_path)
             data.reset_index(drop=True, inplace=True)
@@ -34,6 +59,19 @@ class PredictiveDataExtract():
             raise MachinePredictiveMaintenanceException(e, sys)
         
     def insert_data_mongodb(self, records, database, collection):
+
+        """
+        Inserts JSON records into the specified MongoDB database and collection.
+
+        Args:
+            records (list): List of JSON records to be inserted.
+            database (str): Name of the MongoDB database.
+            collection (str): Name of the MongoDB collection.
+
+        Returns:
+            int: Number of records inserted.
+        """
+        
         try:
             self.records = records
             self.database = database

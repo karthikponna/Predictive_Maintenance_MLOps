@@ -26,6 +26,14 @@ import mlflow
 class ModelTrainer:
     def __init__(self, data_transformation_artifact: DataTransformationArtifact, model_trainer_config: ModelTrainerConfig):
 
+        """
+        Initialize the ModelTrainer class with the provided artifacts and configuration.
+
+        Args:
+            data_transformation_artifact (DataTransformationArtifact): The artifact containing transformed training and testing data paths.
+            model_trainer_config (ModelTrainerConfig): The configuration object for the model trainer, including file paths and other settings.
+        """
+
         try:
             self.data_transformation_artifact = data_transformation_artifact
             self.model_trainer_config = model_trainer_config
@@ -34,6 +42,16 @@ class ModelTrainer:
             raise MachinePredictiveMaintenanceException(e, sys)
         
     def track_mlflow(self, best_model, classification_metric, input_example):
+
+        """
+        Log model and metrics to MLflow.
+
+        Args:
+            best_model: The trained model object.
+            classification_metric: The classification metrics (f1, precision, recall).
+            input_example: An example input data sample for the model.
+        """
+
         try:
             with mlflow.start_run():
                 f1_score=classification_metric.f1_score
@@ -50,6 +68,20 @@ class ModelTrainer:
     
 
     def train_model(self, X_train, y_train, X_test, y_test ):
+
+        """
+        Train multiple models and select the best-performing one based on evaluation metrics.
+
+        Args:
+            X_train: Training features.
+            y_train: Training labels.
+            X_test: Testing features.
+            y_test: Testing labels.
+
+        Returns:
+            ModelTrainerArtifact: An artifact containing details about the trained model and its metrics.
+        """
+
         models = {
                 "Random Forest": RandomForestClassifier(verbose=1),
                 "Decision Tree": DecisionTreeClassifier(),
@@ -140,6 +172,13 @@ class ModelTrainer:
 
         
     def initiate_model_trainer(self) -> ModelTrainerArtifact:
+
+        """
+        Prepare and train the model using the transformed data.
+
+        Returns:
+            ModelTrainerArtifact: An artifact containing the path of the trained model and evaluation metrics.
+        """
 
         try:
             train_file_path = self.data_transformation_artifact.transformed_train_file_path

@@ -5,6 +5,18 @@ import sys
 
 def get_classification_score(y_true, y_pred) -> ClassificationMetricArtifact:
 
+    """
+    Calculate classification metrics including F1 score, precision, and recall.
+
+    Args:
+        y_true (array-like): Ground truth (true labels).
+        y_pred (array-like): Predicted labels.
+
+    Returns:
+        ClassificationMetricArtifact: An object containing F1 score, precision, and recall.
+
+    """
+
     try:
         model_f1_score = f1_score(y_true, y_pred)
         model_recall_score = recall_score(y_true, y_pred)

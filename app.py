@@ -51,11 +51,28 @@ templates = Jinja2Templates(directory="./templates")
 
 @app.get("/", tags=["authentication"])
 async def index():
+
+    """
+    Redirects to the API documentation.
+
+    Returns:
+        RedirectResponse: Redirects the user to the API documentation page.
+    """
+
     return RedirectResponse(url="/docs")
 
 
 @app.get("/train")
 async def train_route():
+
+    """
+    Triggers the training pipeline to run the machine learning training process.
+
+    Returns:
+        Response: A success message if training is successful.
+
+    """
+
     try:
         train_pipeline = TrainingPipeline()
         train_pipeline.run_pipeline()
@@ -66,6 +83,20 @@ async def train_route():
 
 @app.post("/predict")
 async def predict_route(request: Request, file: UploadFile=File(...)):
+
+    """
+    Accepts a CSV file, preprocesses the data, predicts using the trained model, 
+    and returns the predictions in an HTML table.
+
+    Args:
+        request (Request): The incoming HTTP request.
+        file (UploadFile): The uploaded CSV file.
+
+    Returns:
+        TemplateResponse: Rendered HTML table containing the predictions.
+
+    """
+
     try:
         df=pd.read_csv(file.file)
         #print(df)

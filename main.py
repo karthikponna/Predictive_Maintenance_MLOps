@@ -47,6 +47,3 @@ if __name__=="__main__":
     except Exception as e:
         raise MachinePredictiveMaintenanceException(e, sys)
     
-
-# 2024/12/29 10:19:53 WARNING mlflow.models.model: Model logged without a signature and input example. Please set `input_example` parameter when logging the model to auto infer the model signature.
-# 2024/12/29 10:19:58 WARNING mlflow.models.model: Model logged without a signature and input example. Please set `input_example` parameter when logging the model to auto infer the model signature.

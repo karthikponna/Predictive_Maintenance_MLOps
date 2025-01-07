@@ -10,9 +10,31 @@ import sys, os
 
 
 class DataValidation:
+
+    """
+    A class used to validate the dataset for machine predictive maintenance.
+
+    This class includes methods to check the integrity of the dataset, 
+    validate the number of columns, check if specific columns exist, and 
+    detect data drift between the training and testing datasets.
+
+    Attributes:
+        data_ingestion_artifact (DataIngestionArtifact): Contains file paths for training and testing datasets.
+        data_validation_config (DataValidationConfig): Configuration for data validation, including file paths for reports.
+        _schema_config (dict): Schema configuration read from a YAML file, containing column specifications.
+    """
+
     def __init__(self, data_ingestion_artifact:DataIngestionArtifact,
                  data_validation_config: DataValidationConfig):
         
+        """
+        Initializes the DataValidation object.
+
+        Args:
+            data_ingestion_artifact (DataIngestionArtifact): Artifact containing file paths for training and testing datasets.
+            data_validation_config (DataValidationConfig): Configuration for data validation.
+        """
+
         try:
             self.data_ingestion_artifact= data_ingestion_artifact
             self.data_validation_config= data_validation_config
@@ -23,6 +45,17 @@ class DataValidation:
         
     @staticmethod
     def read_data(file_path) -> pd.DataFrame:
+
+        """
+        Reads data from a CSV file into a pandas DataFrame.
+
+        Args:
+            file_path (str): Path to the CSV file.
+
+        Returns:
+            pd.DataFrame: The loaded DataFrame.
+        """
+
         try:
             return pd.read_csv(file_path)
         except Exception as e:
@@ -30,7 +63,17 @@ class DataValidation:
 
     
     def validate_number_of_columns(self, dataframe:pd.DataFrame)-> bool:
-        
+
+        """
+        Validates if the number of columns in the DataFrame matches the schema.
+
+        Args:
+            dataframe (pd.DataFrame): DataFrame to validate.
+
+        Returns:
+            bool: True if the number of columns matches the schema, False otherwise.
+        """
+
         try:
             number_of_columns = len(self._schema_config)
 
@@ -47,6 +90,16 @@ class DataValidation:
         
 
     def is_columns_exist(self, df:pd.DataFrame) -> bool:
+
+        """
+        Checks if all required columns exist in the DataFrame.
+
+        Args:
+            df (pd.DataFrame): DataFrame to validate.
+
+        Returns:
+            bool: True if all required columns exist, False otherwise.
+        """
 
         try:
             dataframe_columns = df.columns
@@ -74,6 +127,18 @@ class DataValidation:
 
     
     def detect_dataset_drift(self, base_df, current_df, threshold = 0.05) -> bool :
+        
+        """
+        Detects dataset drift between the base and current DataFrames using the Kolmogorov-Smirnov test.
+
+        Args:
+            base_df (pd.DataFrame): The base DataFrame.
+            current_df (pd.DataFrame): The current DataFrame to compare.
+            threshold (float, optional): Threshold for p-value to detect drift. Defaults to 0.05.
+
+        Returns:
+            bool: True if no drift is detected, False otherwise.
+        """
         
         try:
             status = True
@@ -110,6 +175,15 @@ class DataValidation:
 
         
     def initiate_data_validation(self)-> DataValidationArtifact:
+
+        """
+        Initiates the data validation process by validating column numbers, 
+        column existence, and detecting dataset drift.
+
+        Returns:
+            DataValidationArtifact: An artifact containing validation results and file paths.
+        """
+
         try:
             validation_error_msg  = ""
             logging.info("Starting data validation")

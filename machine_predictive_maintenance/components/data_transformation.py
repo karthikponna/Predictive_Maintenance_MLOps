@@ -19,6 +19,17 @@ from machine_predictive_maintenance.logging.logger import logging
 from machine_predictive_maintenance.utils.main_utils.utils import read_yaml_file, drop_columns, save_numpy_array_data, save_object
 
 class DataTransformation:
+
+    """
+    Class responsible for performing data transformation tasks such as encoding, scaling, 
+    handling imbalanced datasets, and preparing the data for model training.
+
+    Args:
+        data_validation_artifact (DataValidationArtifact): The artifact generated after data validation.
+        data_transformation_config (DataTransformationConfig): Configuration for data transformation.
+
+    """
+
     def __init__(self,data_validation_artifact: DataValidationArtifact,
                  data_transformation_config: DataTransformationConfig):
         
@@ -32,6 +43,18 @@ class DataTransformation:
         
     @staticmethod
     def read_data(file_path) -> pd.DataFrame:
+
+        """
+        Reads data from the specified file path.
+
+        Args:
+            file_path (str): Path to the file to be read.
+
+        Returns:
+            pd.DataFrame: Loaded data as a Pandas DataFrame.
+
+        """
+
         try:
             return pd.read_csv(file_path)
         
@@ -40,6 +63,14 @@ class DataTransformation:
         
 
     def get_data_transformer_object(self):
+
+        """
+        Creates a data transformation pipeline including ordinal encoding and Min-Max scaling.
+
+        Returns:
+            ColumnTransformer: A preprocessor object containing the transformations.
+
+        """
 
         try:
 
@@ -73,6 +104,15 @@ class DataTransformation:
 
     def initiate_data_transformation(self) -> DataTransformationArtifact:
         
+        """
+        Executes the data transformation process, including handling missing values, 
+        applying transformations, and handling imbalanced data using SMOTEENN.
+
+        Returns:
+            DataTransformationArtifact: Contains paths to the transformed train, test files, 
+            and the preprocessor object.
+
+        """
 
         try:
             

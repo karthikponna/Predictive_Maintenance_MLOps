@@ -1,7 +1,21 @@
 import sys
 from machine_predictive_maintenance.logging import logger
 
+
 class MachinePredictiveMaintenanceException(Exception):
+
+    """
+    Custom exception class for handling errors in the Machine Predictive Maintenance project.
+    
+    This class provides additional information about the error, including the name of the Python script 
+    where the error occurred and the line number. It can be used to log and raise meaningful error messages 
+    in the application.
+
+    Args:
+        error_message (Exception): The original error message or exception.
+        error_details (sys): System module to retrieve exception details like traceback.
+    """
+
     def __init__(self,error_message,error_details:sys):
         self.error_message = error_message
         _,_,exc_tb = error_details.exc_info()

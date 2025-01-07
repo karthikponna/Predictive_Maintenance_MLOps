@@ -29,11 +29,34 @@ from machine_predictive_maintenance.entity.artifact_entity import (
 )
 
 class TrainingPipeline:
+
+    """
+    Class to manage the entire Machine Predictive Maintenance training pipeline.
+    Includes data ingestion, validation, transformation, model training, and artifact syncing.
+
+    Attributes:
+        training_pipeline_config (TrainingPipelineConfig): Configuration for the training pipeline.
+        s3_sync (S3Sync): Utility for syncing data with S3.
+    """
+
     def __init__(self):
+
+        """
+        Initializes the training pipeline and its configurations.
+        """
+        
         self.training_pipeline_config = TrainingPipelineConfig()
         self.s3_sync = S3Sync()
 
     def data_ingestion(self):
+
+        """
+        Handles the data ingestion process.
+
+        Returns:
+            DataIngestionArtifact: Contains metadata about the ingested data.
+        """
+
         try:
             self.data_ingestion_config = DataIngestionConfig(training_pipeline_config=self.training_pipeline_config)
 
@@ -50,6 +73,17 @@ class TrainingPipeline:
             raise MachinePredictiveMaintenanceException(e, sys)
         
     def data_validation(self,data_ingestion_artifact:DataIngestionArtifact):
+
+        """
+        Handles the data validation process.
+
+        Args:
+            data_ingestion_artifact (DataIngestionArtifact): Artifact from data ingestion.
+
+        Returns:
+            DataValidationArtifact: Contains metadata about the validated data.
+        """
+
         try:
             data_validation_config=DataValidationConfig(training_pipeline_config=self.training_pipeline_config)
             data_validation=DataValidation(data_ingestion_artifact=data_ingestion_artifact,data_validation_config=data_validation_config)
@@ -65,6 +99,17 @@ class TrainingPipeline:
         
 
     def data_transformation(self,data_validation_artifact:DataValidationArtifact):
+
+        """
+        Handles the data transformation process.
+
+        Args:
+            data_validation_artifact (DataValidationArtifact): Artifact from data validation.
+
+        Returns:
+            DataTransformationArtifact: Contains metadata about the transformed data.
+        """
+
         try:
             data_transformation_config = DataTransformationConfig(training_pipeline_config=self.training_pipeline_config)
             data_transformation = DataTransformation(data_validation_artifact=data_validation_artifact,
@@ -79,6 +124,17 @@ class TrainingPipeline:
             raise MachinePredictiveMaintenanceException(e,sys)
         
     def model_trainer(self,data_transformation_artifact:DataTransformationArtifact)->ModelTrainerArtifact:
+
+        """
+        Handles the model training process.
+
+        Args:
+            data_transformation_artifact (DataTransformationArtifact): Artifact from data transformation.
+
+        Returns:
+            ModelTrainerArtifact: Contains metadata about the trained model.
+        """
+
         try:
             self.model_trainer_config: ModelTrainerConfig = ModelTrainerConfig(
                 training_pipeline_config=self.training_pipeline_config
@@ -98,6 +154,10 @@ class TrainingPipeline:
         
     def sync_artifact_dir_to_s3(self):
 
+        """
+        Syncs the artifact directory to S3.
+        """
+
         try:
 
             aws_bucket_url = f"s3://{TRAINING_BUCKET_NAME}/artifact/{self.training_pipeline_config.timestamp}"
@@ -108,6 +168,11 @@ class TrainingPipeline:
         
 
     def sync_saved_model_dir_to_s3(self):
+
+        """
+        Syncs the saved model directory to S3.
+        """
+
         try:
             aws_bucket_url = f"s3://{TRAINING_BUCKET_NAME}/final_model/{self.training_pipeline_config.timestamp}"
             self.s3_sync.sync_folder_to_s3(folder = self.training_pipeline_config.model_dir,aws_bucket_url=aws_bucket_url)
@@ -116,6 +181,14 @@ class TrainingPipeline:
         
 
     def run_pipeline(self):
+
+        """
+        Executes the entire training pipeline.
+
+        Returns:
+            ModelTrainerArtifact: Contains metadata about the trained model.
+        """
+        
         try:
             data_ingestion_artifact=self.data_ingestion()
             data_validation_artifact=self.data_validation(data_ingestion_artifact=data_ingestion_artifact)
