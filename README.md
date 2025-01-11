@@ -16,7 +16,7 @@
 
 
 ## Problem Statement 📝
-Unplanned machine failures can cause significant downtime and financial losses in industrial settings. This project aims to develop a machine learning model that predicts the likelihood of machine failure based on historical sensor and operational data. By enabling proactive maintenance, it helps reduce costs and improve operational efficiency.
+Unplanned machine failures can cause significant downtime and financial losses in industries. This project aims to develop a machine learning model that predicts the likelihood of machine failure based on historical sensor and operational data. By enabling proactive maintenance, it helps reduce costs and improve operational efficiency.
 
 
 ## Tech Stack 🛠️
@@ -36,19 +36,19 @@ Unplanned machine failures can cause significant downtime and financial losses i
 
 ## Training Pipeline 🚂
 
-![assets/Training Pipeline.gif](assets/training_pipeline.gif) ## have to change 
+![assets/Training Pipeline.gif](assets/training_pipeline.gif) 
 
 The training pipeline for the Machine Predictive Maintenance project is structured into several essential stages. Each stage plays a crucial role in processing, validating, transforming the data, and ultimately training the model. Below is an overview of the pipeline stages:
 
 ### 1. **Data Ingestion**📥
 
-The first stage of the training pipeline involves retrieving machine predictive data from a MongoDB database, cleaning it, and converting it into a Pandas DataFrame. The data is then split into training (80%) and test (20%) sets. The output is a **`DataIngestionArtifact`** containing file paths to these datasets, ready for the next pipeline stages.
+The first stage of the training pipeline involves retrieving machine predictive data from a MongoDB database, cleaning it, and converting it into a Pandas DataFrame. The data is then split into training (80%) and test (20%) sets. The output is a `DataIngestionArtifact` containing file paths to these datasets, ready for the next pipeline stages.
 
 ![assets/Mongodb.png](assets/mongodb.png)
 
 ### 2. **Data Validation**✔️
 
-The data validation stage ensures data integrity by checking for missing columns, inconsistencies, and data drift using statistical tests. It validates the data against a defined schema and produces a **`DataValidationArtifact`** with the validation status, drift report, and paths to the validated datasets.
+The data validation stage ensures data integrity by checking for missing columns, inconsistencies, and data drift using statistical tests. It validates the data against a defined schema and produces a `DataValidationArtifact` with the validation status, drift report, and paths to the validated datasets.
 
 
 ### 3. **Data Transformation**🔄
@@ -68,6 +68,7 @@ This stage trains machine learning models using the transformed data and evaluat
 
 The CI/CD pipeline is the backbone of this project, automating integration, delivery, and deployment to streamline the development lifecycle. Leveraging GitHub Actions, it ensures that every code update triggers automated workflows for testing, building, and deploying the application efficiently. By incorporating a self-hosted runner, the pipeline listens for new jobs and seamlessly deploys the latest changes, reducing manual effort and maintaining code quality throughout the process.
 
+
 ![assets/Github Actions.png](assets/github_actions.png)
 
 
@@ -85,19 +86,19 @@ The pipeline automatically deploys the latest Docker image to a self-hosted envi
 
 ## AWS Integration
 
-- **AWS S3:**
+1. **AWS S3:**
 
 AWS S3 stores all training pipeline artifacts, including model checkpoints, logs, and datasets, in a secure, versioned system. This makes it easy to track progress, manage iterations, and access results whenever needed.
 
 ![assets/AWS s3 Bucket.png](assets/aws_s3_bucket.png)
 
-- **Amazon Elastic Container Registry (ECR):**
+2. **Amazon Elastic Container Registry (ECR):**
 
 ECR serves as the repository for Docker images created during the Continuous Delivery phase. These images package the application, including the trained model and FastAPI interface, and are tagged and pushed to ECR for seamless deployment to production.
 
 ![assets/AWS ECR.png](assets/aws_ecr.png)
 
-- **Amazon Elastic Compute Cloud (EC2):**
+3. **Amazon Elastic Compute Cloud (EC2):**
 
 AWS EC2 instances host the application and serve batch predictions by running the latest Docker image pulled from ECR. EC2 ensures a scalable and flexible environment, enabling the application to handle varying workloads and remain responsive under different usage conditions.
 
