@@ -40,31 +40,31 @@ Unplanned machine failures can cause significant downtime and financial losses i
 
 The training pipeline for the Machine Predictive Maintenance project is structured into several essential stages. Each stage plays a crucial role in processing, validating, transforming the data, and ultimately training the model. Below is an overview of the pipeline stages:
 
-### 1. **Data Ingestion**📥
+### 1. **Data Ingestion** 📥
 
 The first stage of the training pipeline involves retrieving machine predictive data from a MongoDB database, cleaning it, and converting it into a Pandas DataFrame. The data is then split into training (80%) and test (20%) sets. The output is a `DataIngestionArtifact` containing file paths to these datasets, ready for the next pipeline stages.
 
 ![assets/Mongodb.png](assets/mongodb.png)
 
-### 2. **Data Validation**✔️
+### 2. **Data Validation** ✔️
 
 The data validation stage ensures data integrity by checking for missing columns, inconsistencies, and data drift using statistical tests. It validates the data against a defined schema and produces a `DataValidationArtifact` with the validation status, drift report, and paths to the validated datasets.
 
 
-### 3. **Data Transformation**🔄
+### 3. **Data Transformation** 🔄
 
 In this phase, the raw data is prepared for modeling by applying techniques like encoding categorical variables, scaling numerical features, and addressing data imbalance using SMOTEENN. The processed training and test datasets are saved as **`.npy`** files, along with a serialized preprocessing object (**`preprocessing.pkl`**) for future use.
 
-### 4. **Model Training and Evaluation**🤖
+### 4. **Model Training and Evaluation** 🤖
 
 This stage trains machine learning models using the transformed data and evaluates them to identify the best performer. Metrics and artifacts, including the final trained model (**`model.pkl`**), are tracked using MLflow, ensuring a streamlined workflow.
 
-- **Experiment Tracking**
+- **Experiment Tracking** 🧪
 
 ![assets/mlflow.png](assets/mlflow.png) 
 
 
-## Github actions - CI/CD workflow 
+## Github actions - CI/CD workflow 🌐
 
 The CI/CD pipeline is the backbone of this project, automating integration, delivery, and deployment to streamline the development lifecycle. Leveraging GitHub Actions, it ensures that every code update triggers automated workflows for testing, building, and deploying the application efficiently. By incorporating a self-hosted runner, the pipeline listens for new jobs and seamlessly deploys the latest changes, reducing manual effort and maintaining code quality throughout the process.
 
@@ -84,7 +84,7 @@ Once the CI steps are successfully completed, GitHub Actions prepares the applic
 
 The pipeline automatically deploys the latest Docker image to a self-hosted environment. It pulls the latest image from Amazon ECR, runs the container to serve users, and removes outdated Docker images and containers. This ensures that the most recent version of the application is deployed efficiently, minimizing manual effort and speeding up the release process.
 
-## AWS Integration
+## AWS Integration 💥
 
 1. **AWS S3:**
 
@@ -106,7 +106,7 @@ AWS EC2 instances host the application and serve batch predictions by running th
 
 ![assets/AWS EC2 console.png](assets/aws_ec2_cli.png)
 
-## FastAPI
+## FastAPI ⚡
 
 FastAPI provides a RESTful API as the user interface for the deployed application. It allows users to submit data batches and receive predictions efficiently, leveraging the trained model packaged within the Docker container.
 
@@ -126,7 +126,7 @@ The /predict route is designed for making batch predictions with the trained mod
 
 ![assets/Fastapi Predict route.png](assets/predict_route.png)
 
-## Pre-requisites
+## Pre-requisites 📢
 
 - MongoDB
 - Python 3.8+
